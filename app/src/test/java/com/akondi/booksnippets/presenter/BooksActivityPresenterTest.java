@@ -36,8 +36,7 @@ public class BooksActivityPresenterTest {
     @Mock
     BooksActivityView view;
 
-    @Inject
-    BooksActivityPresenter presenter;
+    private BooksActivityPresenter presenter;
 
     private final List<Book> MANY_BOOKS = Arrays.asList(new Book(), new Book(), new Book());
 
@@ -57,85 +56,28 @@ public class BooksActivityPresenterTest {
 
     @Test
     public void shouldPassBooksToView() {
-        //given
-        //BooksActivityView view = new MockView();
-        //BooksRepository booksRepository = new MockBooksRepository(true);
-        //Mockito.when(booksRepository.getBooks()).thenReturn(MANY_BOOKS);
         Mockito.when(booksRepository.getBooks()).thenReturn(Single.just(MANY_BOOKS));
 
-
-        // when
         presenter.loadBooks();
 
-        //then
-        //Assert.assertEquals(true, ((MockView) view).displayBooksWithBooksCalled);
-        //Mockito.verify(view).displayBooks(MANY_BOOKS);
         Mockito.verify(view).displayBooks(MANY_BOOKS);
     }
 
     @Test
     public void shouldHandleBooksFound() {
-        //given
-        //BooksActivityView view = new MockView();
-        //BooksRepository booksRepository = new MockBooksRepository(false);
-        //Mockito.when(booksRepository.getBooks()).thenReturn(Collections.EMPTY_LIST);
         Mockito.when(booksRepository.getBooks()).thenReturn(Single.<List<Book>>just(Collections.EMPTY_LIST));
-        //Mockito.when(booksRepository.getBooks()).thenReturn(DisposableSingleObserver.<List<Book>>(Collections.EMPTY_LIST));
 
-
-        // when
-        //BooksActivityPresenter presenter = new BooksActivityPresenter(view, booksRepository);
         presenter.loadBooks();
 
-        //then
-        //Assert.assertEquals(true, ((MockView) view).displayBooksWithNoBooksCalled);
         Mockito.verify(view).displayNoBooks();
     }
 
     @Test
     public void shouldHandleError() {
-        //Mockito.when(booksRepository.getBooks()).thenThrow(new RuntimeException("boom"));
-        //Mockito.when(booksRepository.getBooksReactively()).thenThrow(new RuntimeException("boom"));
         Mockito.when(booksRepository.getBooks()).thenReturn(Single.<List<Book>>error(new Throwable("boom")));
 
         presenter.loadBooks();
 
         Mockito.verify(view).displayError();
     }
-
-//    private class MockView implements BooksActivityView {
-//
-//        boolean displayBooksWithBooksCalled;
-//        boolean displayBooksWithNoBooksCalled;
-//
-//        @Override
-//        public void displayBooks(List<Book> bookList) {
-//
-//            if (bookList.size() == 3) displayBooksWithBooksCalled = true;
-//        }
-//
-//        @Override
-//        public void displayNoBooks() {
-//            displayBooksWithNoBooksCalled = true;
-//        }
-//    }
-
-//    private class MockBooksRepository implements BooksRepository {
-//
-//        private boolean returnSomeBooks;
-//
-//        public MockBooksRepository(boolean returnSomeBooks) {
-//            this.returnSomeBooks = returnSomeBooks;
-//        }
-//
-//        @Override
-//        public List<Book> getBooks() {
-//
-//            if (returnSomeBooks) {
-//                return Arrays.asList(new Book(), new Book(), new Book());
-//            } else {
-//                return Collections.emptyList();
-//            }
-//        }
-//    }
 }
