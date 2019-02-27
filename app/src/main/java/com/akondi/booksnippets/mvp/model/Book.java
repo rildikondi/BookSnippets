@@ -1,4 +1,4 @@
-package com.akondi.booksnippets.model;
+package com.akondi.booksnippets.mvp.model;
 
 public class Book {
 

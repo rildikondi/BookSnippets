@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 
-import com.akondi.booksnippets.model.Book;
+import com.akondi.booksnippets.mvp.model.Book;
 import com.akondi.booksnippets.sql_helper.SQLiteAssetHelper;
 
 import java.util.ArrayList;
